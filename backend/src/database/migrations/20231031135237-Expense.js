@@ -14,13 +14,13 @@ module.exports = {
 				allowNull: false,
 			},
 			paymentType: {
-				type: Sequelize.ENUM([
+				type: Sequelize.ENUM(
 					"pix",
 					"debit card",
 					"credit card",
 					"money",
-					"other",
-				]),
+					"other"
+				),
 				allowNull: false,
 			},
 			price: {
