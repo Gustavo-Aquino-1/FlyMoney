@@ -1,6 +1,7 @@
 import { Model } from "sequelize";
 import db from ".";
 import sequelize from "sequelize";
+import User from "./User";
 
 export default class Expense extends Model {
 	declare id: number;
@@ -53,3 +54,8 @@ Expense.init(
 	},
 	{ sequelize: db, tableName: "Expense", timestamps: false }
 );
+
+Expense.belongsTo(User, {
+	foreignKey: "userId",
+	as: "user",
+});

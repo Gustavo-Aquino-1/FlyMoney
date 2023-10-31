@@ -1,6 +1,8 @@
 import { Model } from "sequelize";
 import db from ".";
 import sequelize from "sequelize";
+import User from "./User";
+import Article from "./Article";
 
 export default class UserArticle extends Model {
 	declare userId: number;
@@ -34,3 +36,17 @@ UserArticle.init(
 	},
 	{ sequelize: db, tableName: "UserArticle", timestamps: false }
 );
+
+User.belongsToMany(Article, {
+	foreignKey: "userId",
+	otherKey: "articleId",
+	as: "articles",
+	through: UserArticle,
+});
+
+Article.belongsToMany(User, {
+	foreignKey: "articleId",
+	otherKey: "userId",
+	as: "users",
+	through: UserArticle,
+});

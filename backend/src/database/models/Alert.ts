@@ -1,6 +1,7 @@
 import { Model } from "sequelize";
 import db from ".";
 import sequelize from "sequelize";
+import User from "./User";
 
 export default class Alert extends Model {
 	declare id: number;
@@ -47,3 +48,8 @@ Alert.init(
 	},
 	{ sequelize: db, tableName: "Alert", timestamps: false }
 );
+
+Alert.belongsTo(User, {
+	foreignKey: "userId",
+	as: "user",
+});

@@ -1,6 +1,7 @@
 import { Model } from "sequelize";
 import db from ".";
 import sequelize from "sequelize";
+import User from "./User";
 
 export default class Article extends Model {
 	declare id: number;
@@ -52,3 +53,8 @@ Article.init(
 	},
 	{ sequelize: db, tableName: "Article", timestamps: false }
 );
+
+Article.belongsTo(User, {
+	foreignKey: "userId",
+	as: "author",
+});
