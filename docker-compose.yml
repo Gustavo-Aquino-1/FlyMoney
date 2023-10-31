@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - 3001:3001
+    environment:
+      - DB_HOST=db
+      - DB_NAME=flymoney
+      - DB_USER=root
+      - DB_PASS=password
+      - JWT_SECRET=busdcvh89h890+buwegb898y0h8v8e8
+      - PORT=3001
+    volumes:
+      - ./backend:/app-backend
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app-frontend
+    restart: always
+
+  db:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    restart: always
