@@ -8,4 +8,14 @@ const userSchema = joi.object({
 	role: joi.string().equal("user", "admin").min(8).required(),
 });
 
-export = { userSchema };
+const expenseSchema = joi.object({
+	title: joi.string().min(2).required(),
+	price: joi.number().positive().required(),
+	date: joi.date(),
+	userId: joi.number().positive().required(),
+	paymentType: joi
+		.string()
+		.equal("pix", "debit card", "credit card", "money", "other"),
+});
+
+export = { userSchema, expenseSchema };
