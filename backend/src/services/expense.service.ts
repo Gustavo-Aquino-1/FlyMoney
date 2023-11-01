@@ -26,12 +26,11 @@ export default class ExpenseService {
 		month = new Date().getMonth() + 1,
 		day?: number
 	) {
-		const actualDate = new Date();
 		const expenses = await this.model.findAll({
 			where: Sequelize.literal(
 				`userId = ${userId}
-				AND YEAR(date) = ${year || actualDate.getFullYear()}
-				AND MONTH(date) = ${month || actualDate.getMonth() + 1}
+				AND YEAR(date) = ${year}
+				AND MONTH(date) = ${month}
 				${day ? `AND DAY(date) = ${day}` : ""}`
 			),
 		});

@@ -20,9 +20,9 @@ export default class ExpenseController {
 			const { year, month, day } = req.query;
 			const { status, message } = await this.service.get(
 				userId,
-				Number(year),
-				Number(month),
-				Number(day)
+				Number(year) || undefined,
+				Number(month) || undefined,
+				Number(day) || undefined
 			);
 			res.status(status).json(message);
 		} catch (error) {
