@@ -11,7 +11,7 @@ const userSchema = joi.object({
 const expenseSchema = joi.object({
 	title: joi.string().min(2).required(),
 	price: joi.number().positive().required(),
-	date: joi.date(),
+	date: joi.date().less(new Date()),
 	userId: joi.number().positive().required(),
 	paymentType: joi
 		.string()

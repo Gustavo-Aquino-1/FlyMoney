@@ -13,4 +13,20 @@ export default class ExpenseController {
 			next(error);
 		}
 	}
+
+	async get(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { year, month, day } = req.query;
+			const { status, message } = await this.service.get(
+				userId,
+				Number(year),
+				Number(month),
+				Number(day)
+			);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
 }

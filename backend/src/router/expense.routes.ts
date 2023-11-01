@@ -7,5 +7,6 @@ const control = new ExpenseController();
 const expenseRouter = Router();
 
 expenseRouter.post("/expense", verifyToken, control.create.bind(control));
+expenseRouter.get("/expense", verifyToken, control.get.bind(control));
 
 export default expenseRouter;
