@@ -17,6 +17,10 @@ export default class ExpenseService {
 		if (error) return resp(400, error.message);
 
 		const expense = await this.model.create({ ...data });
+		await User.update(
+			{ balance: user.balance - data.price },
+			{ where: { id: userId } }
+		);
 		return resp(201, expense);
 	}
 
@@ -36,5 +40,29 @@ export default class ExpenseService {
 		});
 
 		return resp(200, expenses);
+	}
+
+	async update(data: IExpense, expenseId: number, userId: number) {
+		const expense = await this.model.findByPk(expenseId);
+		if (!expense) return resp(404, "expense not found");
+		if (expense.userId != userId) return resp(401, "unauthorized");
+
+		data.userId = userId;
+		const { error } = schema.expenseSchema.validate(data);
+		if (error) return resp(400, error.message);
+
+		await this.model.update(
+			{ ...data },
+			{
+				where: { id: expenseId },
+			}
+		);
+
+		const user = await User.findByPk(userId);
+
+		const balance = user!.balance + expense.price - data.price;
+		await User.update({ balance }, { where: { id: userId } });
+
+		return resp(204, null);
 	}
 }

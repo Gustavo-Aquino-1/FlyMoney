@@ -15,7 +15,8 @@ const expenseSchema = joi.object({
 	userId: joi.number().positive().required(),
 	paymentType: joi
 		.string()
-		.equal("pix", "debit card", "credit card", "money", "other"),
+		.equal("pix", "debit card", "credit card", "money", "other")
+		.required(),
 });
 
 export = { userSchema, expenseSchema };
