@@ -65,4 +65,23 @@ export default class ExpenseService {
 
 		return resp(204, null);
 	}
+
+	async remove(expenseId: number, userId: number) {
+		const expense = await this.model.findByPk(expenseId);
+		if (!expense) return resp(404, "expense not found");
+		if (expense.userId != userId) return resp(401, "unauthorized");
+
+		await this.model.destroy({ where: { id: expenseId } });
+
+		const user = await User.findByPk(userId);
+
+		await User.update(
+			{ balance: user!.balance + expense.price },
+			{
+				where: { id: userId },
+			}
+		);
+
+		return resp(204, null);
+	}
 }

@@ -44,4 +44,15 @@ export default class ExpenseController {
 			next(error);
 		}
 	}
+
+	async remove(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { id } = req.params;
+			const { status, message } = await this.service.remove(+id, userId);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
 }
