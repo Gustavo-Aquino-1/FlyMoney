@@ -28,4 +28,25 @@ export default class ArticleController {
 			next(error);
 		}
 	}
+
+	async get(req: Request, res: Response, next: NextFunction) {
+		try {
+			let { category, authorId, title } = req.query;
+			[category, authorId, title] = this.format(category, authorId, title);
+			const filters = [category, authorId, title].filter(
+				(e) => typeof e == "string"
+			) as string[];
+			const { status, message } = await this.service.get(filters);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	private format(...strArr: unknown[]) {
+		const category = strArr[0] ? "category=" + strArr[0] : undefined;
+		const authorId = strArr[1] ? "userId=" + strArr[1] : undefined;
+		const title = strArr[2] ? "title=" + strArr[2] : undefined;
+		return [category, authorId, title];
+	}
 }

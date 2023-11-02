@@ -8,5 +8,6 @@ const articleRouter = Router();
 
 articleRouter.post("/article", verifyToken, control.create.bind(control));
 articleRouter.put("/article/:id", verifyToken, control.update.bind(control));
+articleRouter.get("/article", control.get.bind(control));
 
 export default articleRouter;

@@ -3,6 +3,7 @@ import Article from "../database/models/Article";
 import resp from "../utils/resp";
 import IArticle from "../interfaces/IArticle";
 import schema from "./validations/schema";
+import { Op } from "sequelize";
 
 export default class ArticleService {
 	private model: ModelStatic<Article> = Article;
@@ -35,5 +36,26 @@ export default class ArticleService {
 		await this.model.update({ ...data }, { where: { id: +articleId } });
 
 		return resp(204, null);
+	}
+
+	async get(filters: string[]) {
+		const filtersObj: { category?: string; userId?: string; title?: string } =
+			{};
+		filters.map((e) => {
+			const key = e.split("=")[0] as "category" | "userId" | "title",
+				value = e.split("=")[1];
+			filtersObj[key] = value;
+		});
+
+		const articles = await this.model.findAll({
+			where: {
+				...filtersObj,
+				title: {
+					[Op.like]: `%${filtersObj.title || ""}%`,
+				},
+			},
+		});
+
+		return resp(200, articles);
 	}
 }
