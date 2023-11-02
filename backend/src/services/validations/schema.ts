@@ -19,4 +19,12 @@ const expenseSchema = joi.object({
 		.required(),
 });
 
-export = { userSchema, expenseSchema };
+const articleSchema = joi.object({
+	userId: joi.number().positive().required(),
+	title: joi.string().min(2).required(),
+	context: joi.string().min(2).required(),
+	link: joi.string(),
+	category: joi.string().min(2).required(),
+});
+
+export = { userSchema, expenseSchema, articleSchema };
