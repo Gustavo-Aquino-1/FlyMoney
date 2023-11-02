@@ -58,4 +58,14 @@ export default class ArticleService {
 
 		return resp(200, articles);
 	}
+
+	async remove(articleId: number, userId: number) {
+		const article = await this.model.findByPk(articleId);
+		if (!article) return resp(404, "article not found");
+		if (article.userId != userId) return resp(401, "unauthorized");
+
+		await this.model.destroy({ where: { id: articleId } });
+
+		return resp(204, null);
+	}
 }

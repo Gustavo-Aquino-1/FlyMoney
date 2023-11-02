@@ -43,6 +43,17 @@ export default class ArticleController {
 		}
 	}
 
+	async remove(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { id } = req.params;
+			const { status, message } = await this.service.remove(+id, userId);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
+
 	private format(...strArr: unknown[]) {
 		const category = strArr[0] ? "category=" + strArr[0] : undefined;
 		const authorId = strArr[1] ? "userId=" + strArr[1] : undefined;
