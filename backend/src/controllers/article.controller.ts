@@ -13,4 +13,19 @@ export default class ArticleController {
 			next(error);
 		}
 	}
+
+	async update(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { id } = req.params;
+			const { status, message } = await this.service.update(
+				req.body,
+				+id,
+				userId
+			);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
 }

@@ -21,4 +21,19 @@ export default class ArticleService {
 		const article = await this.model.create({ ...data });
 		return resp(201, article);
 	}
+
+	async update(data: IArticle, articleId: number, userId: number) {
+		const article = await this.model.findByPk(articleId);
+		if (!article) return resp(404, "article not found");
+		if (article.userId != userId) return resp(401, "unauthorized");
+
+		data.userId = userId;
+
+		const { error } = schema.articleSchema.validate(data);
+		if (error) return resp(400, error.message);
+
+		await this.model.update({ ...data }, { where: { id: +articleId } });
+
+		return resp(204, null);
+	}
 }
