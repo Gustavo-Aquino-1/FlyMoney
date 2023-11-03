@@ -5,6 +5,8 @@ import schema from "./validations/schema";
 import resp from "../utils/resp";
 import md5 from "md5";
 import { sign } from "../jwt/jwt.utils";
+import Article from "../database/models/Article";
+import UserArticle from "../database/models/UserArticle";
 
 export default class UserService {
 	private model: ModelStatic<User> = User;
@@ -29,5 +31,19 @@ export default class UserService {
 
 		const token = sign({ id: user.id, email: user.email, role: user.role });
 		return resp(200, { token });
+	}
+
+	async saveArticle(userId: number, articleId: number) {
+		const article = await Article.findByPk(articleId);
+		if (!article) return resp(404, "article not found");
+
+		const articleSaved = await UserArticle.findOne({
+			where: { userId, articleId },
+		});
+
+		if(articleSaved) await UserArticle.destroy({where: { userId, articleId }});
+		else await UserArticle.create({ userId, articleId });
+		
+		return resp(204, null);
 	}
 }

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller";
+import { verifyToken } from "../jwt/jwt.utils";
 
 const control = new UserController();
 
@@ -7,5 +8,10 @@ const userRouter = Router();
 
 userRouter.post("/user", control.create.bind(control));
 userRouter.post("/login", control.login.bind(control));
+userRouter.patch(
+	"/save/article/:id",
+	verifyToken,
+	control.saveArticle.bind(control)
+);
 
 export default userRouter;

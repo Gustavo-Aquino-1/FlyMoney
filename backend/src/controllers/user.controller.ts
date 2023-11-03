@@ -21,4 +21,15 @@ export default class UserController {
 			next(error);
 		}
 	}
+
+	async saveArticle(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { id } = req.params;
+			const { status, message } = await this.service.saveArticle(userId, +id);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
 }
