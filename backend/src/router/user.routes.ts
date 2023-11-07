@@ -14,5 +14,10 @@ userRouter.patch(
 	control.saveArticle.bind(control)
 );
 userRouter.get("/favorite/:id", verifyToken, control.isFavorite.bind(control));
+userRouter.get(
+	"/favorites",
+	verifyToken,
+	control.getFavoritesArticles.bind(control)
+);
 
 export default userRouter;

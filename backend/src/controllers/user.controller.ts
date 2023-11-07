@@ -43,4 +43,16 @@ export default class UserController {
 			next(error);
 		}
 	}
+
+	async getFavoritesArticles(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { status, message } = await this.service.getFavoritesArticles(
+				userId
+			);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
 }

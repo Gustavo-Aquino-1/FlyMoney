@@ -54,4 +54,12 @@ export default class UserService {
 		});
 		return resp(200, favorite ? "true" : "false");
 	}
+
+	async getFavoritesArticles(userId: number) {
+		const user = await User.findOne({
+			where: { id: userId },
+			include: [{ model: Article, as: "articles" }],
+		});
+		return resp(200, user?.toJSON().articles);
+	}
 }

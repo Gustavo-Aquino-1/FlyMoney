@@ -7,7 +7,7 @@ function Header() {
       <ul className='flex justify-around w-full font-medium gap-2 max-sm:justify-center text-center'>
         <Link to='/home'>My Expenses</Link>
         <Link to='/article'>Articles</Link>
-        <Link to='/saved-articles'>Favorites Articles</Link>
+        <Link to='/favorites'>Favorites Articles</Link>
       </ul>
     </header>
   )

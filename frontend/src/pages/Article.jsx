@@ -19,11 +19,11 @@ function Article() {
     <div>
       <Header />
       <div className='mt-10'>
-        <div className='flex gap-5 justify-start w-[80%] m-auto'>
+        <div className='grid grid-cols-4 gap-5 justify-start w-[80%] m-auto'>
           {articles.map((e) => (
             <div
               onClick={() => push(`/article/${e.id}`)}
-              className='p-2 bg-white border border-black h-[120px] w-[220px] rounded flex flex-col justify-between'
+              className='p-2 bg-white border border-black min-w-[140px] min-h-[120px] rounded flex flex-col justify-between cursor-pointer'
             >
               <p className='text-xl first-letter:capitalize mt-2 ml-2'>
                 {e.title}
