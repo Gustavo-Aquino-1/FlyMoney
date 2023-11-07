@@ -43,6 +43,16 @@ export default class ArticleController {
 		}
 	}
 
+	async getById(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { id } = req.params;
+			const { status, message } = await this.service.getById(+id);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
+
 	async remove(req: Request, res: Response, next: NextFunction) {
 		try {
 			const userId = res.locals.user.id;

@@ -41,9 +41,17 @@ export default class UserService {
 			where: { userId, articleId },
 		});
 
-		if(articleSaved) await UserArticle.destroy({where: { userId, articleId }});
+		if (articleSaved)
+			await UserArticle.destroy({ where: { userId, articleId } });
 		else await UserArticle.create({ userId, articleId });
-		
+
 		return resp(204, null);
+	}
+
+	async isFavorite(userId: number, articleId: number) {
+		const favorite = await UserArticle.findOne({
+			where: { userId, articleId },
+		});
+		return resp(200, favorite ? "true" : "false");
 	}
 }

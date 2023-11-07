@@ -13,5 +13,6 @@ userRouter.patch(
 	verifyToken,
 	control.saveArticle.bind(control)
 );
+userRouter.get("/favorite/:id", verifyToken, control.isFavorite.bind(control));
 
 export default userRouter;

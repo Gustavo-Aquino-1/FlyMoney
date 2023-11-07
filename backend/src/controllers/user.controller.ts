@@ -32,4 +32,15 @@ export default class UserController {
 			next(error);
 		}
 	}
+
+	async isFavorite(req: Request, res: Response, next: NextFunction) {
+		try {
+			const userId = res.locals.user.id;
+			const { id } = req.params;
+			const { status, message } = await this.service.isFavorite(userId, +id);
+			res.status(status).json(message);
+		} catch (error) {
+			next(error);
+		}
+	}
 }

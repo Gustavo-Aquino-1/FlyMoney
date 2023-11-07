@@ -59,6 +59,11 @@ export default class ArticleService {
 		return resp(200, articles);
 	}
 
+	async getById(id: number) {
+		const article = await this.model.findByPk(id);
+		return resp(200, article);
+	}
+
 	async remove(articleId: number, userId: number) {
 		const article = await this.model.findByPk(articleId);
 		if (!article) return resp(404, "article not found");
