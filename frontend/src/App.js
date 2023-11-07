@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Article from './pages/Article'
 import ArticleDetails from './pages/ArticleDetails'
 import FavoritesArticles from './pages/FavoritesArticles'
+import ExpenseDetails from './pages/ExpenseDetails'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route exact path='/article' component={Article} />
       <Route exact path='/article/:id' component={ArticleDetails} />
       <Route exact path='/favorites' component={FavoritesArticles} />
+      <Route exact path='/expense/details' component={ExpenseDetails} />
     </Switch>
   )
 }

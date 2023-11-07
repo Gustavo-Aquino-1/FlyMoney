@@ -48,7 +48,7 @@ function Login() {
           required
         />
 
-        <button className='bg-white p-2 rounded pl-5 pr-5 capitalize border border-green-700 mt-5 bg-green-700 text-white font-bold'>sign in</button>
+        <button className='bg-white p-2 rounded pl-5 pr-5 capitalize border border-green-700 mt-5 bg-green-700 text-black font-bold'>sign in</button>
       </form>
     </div>
   )

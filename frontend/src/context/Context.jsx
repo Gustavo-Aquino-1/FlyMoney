@@ -5,12 +5,15 @@ const AppContext = createContext()
 
 export function ContextProvider(props) {
   const [user, setUser] = useLocalStorage('user', null)
+  const [expense, setExpense] = useLocalStorage('expense', null)
   const contextValue = useMemo(
     () => ({
       user,
       setUser,
+      expense,
+      setExpense
     }),
-    [user, setUser],
+    [user, setUser, expense, setExpense],
   )
   return (
     <AppContext.Provider value={contextValue}>

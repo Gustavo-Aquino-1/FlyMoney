@@ -3,9 +3,10 @@ import api from '../api'
 import useAppContext from '../context/Context'
 import '../styles/home.css'
 import Header from '../components/Header'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 function Home() {
-  const { user } = useAppContext()
+  const { user, setExpense } = useAppContext()
   const [expenses, setExpenses] = useState([])
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
@@ -15,13 +16,13 @@ function Home() {
   const [month, setMonth] = useState(new Date().getMonth() + 1)
   const [year, setYear] = useState(new Date().getFullYear())
   const [dayInclude, setDayInclude] = useState(false)
+  const { push } = useHistory()
 
   useEffect(() => {
     const get = async () => {
       const { data } = await api.get('/expense', {
         headers: { Authorization: user.token },
       })
-      data[0].title = 'cpsacasals'
       setExpenses(data)
     }
     get()
@@ -62,6 +63,11 @@ function Home() {
     } catch (error) {
       alert(error.response.data.message)
     }
+  }
+
+  const handleExpense = (expense) => {
+    setExpense(expense)
+    push('/expense/details')
   }
 
   return (
@@ -175,7 +181,9 @@ function Home() {
 
         <div className='grid grid-cols-2 gap-10 max-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center w-[80%] m-auto mt-20'>
           {expenses.map((e) => (
-            <div className='flex gap-5 flex-col capitalize bg-white text-gray-900'>
+            <div
+             onClick={() => handleExpense(e)}
+             className='flex gap-5 flex-col capitalize bg-white text-gray-900 cursor-pointer'>
               <table className='border border-1 border-black'>
                 <tbody className='border border-1 border-black'>
                   <th className='border border-1 border-black bg-teal-600 text-white p-1'>
@@ -217,7 +225,7 @@ function Home() {
                     Date
                   </th>
                   <td>
-                    <p>{e.date.split('T')[0]}</p>
+                    <p>{e.date.split('T')[0].split('-').reverse().join('/')}</p>
                   </td>
                 </tbody>
               </table>

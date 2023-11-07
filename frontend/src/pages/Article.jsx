@@ -29,7 +29,7 @@ function Article() {
                 {e.title}
               </p>
               <p className='self-end text-gray-500'>
-                {e.createdAt.split('T')[0]}
+                {e.createdAt.split('T')[0].split('-').reverse().join('/')}
               </p>
             </div>
           ))}
