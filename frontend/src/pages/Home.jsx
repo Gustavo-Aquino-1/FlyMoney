@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 function Home() {
   const { user, setExpense } = useAppContext()
   const [expenses, setExpenses] = useState([])
+  const [statistics, setStatistics] = useState({})
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('pix')
@@ -24,6 +25,7 @@ function Home() {
         headers: { Authorization: user.token },
       })
       setExpenses(data)
+      getStatistics(...data)
     }
     get()
   }, [])
@@ -60,6 +62,7 @@ function Home() {
         headers: { Authorization: user.token },
       })
       setExpenses(data)
+      getStatistics(...data)
     } catch (error) {
       alert(error.response.data.message)
     }
@@ -68,6 +71,17 @@ function Home() {
   const handleExpense = (expense) => {
     setExpense(expense)
     push('/expense/details')
+  }
+
+  const getStatistics = (...expenses) => {
+    let total = 0
+    const types = {}
+    for (let i = 0; i < expenses.length; i++) {
+      total += expenses[i].price
+      let type = expenses[i].paymentType
+      types[type] = (types[type] || 0) + 1
+    }
+    setStatistics({ total, types })
   }
 
   return (
@@ -179,11 +193,12 @@ function Home() {
           </form>
         </div>
 
-        <div className='grid grid-cols-2 gap-10 max-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center w-[80%] m-auto mt-20'>
+        <div className='grid grid-cols-2 gap-10 max-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center w-[80%] m-auto mt-20 flex justify-center'>
           {expenses.map((e) => (
             <div
-             onClick={() => handleExpense(e)}
-             className='flex gap-5 flex-col capitalize bg-white text-gray-900 cursor-pointer'>
+              onClick={() => handleExpense(e)}
+              className='flex gap-5 flex-col capitalize bg-white text-gray-900 cursor-pointer'
+            >
               <table className='border border-1 border-black'>
                 <tbody className='border border-1 border-black'>
                   <th className='border border-1 border-black bg-teal-600 text-white p-1'>
@@ -203,8 +218,8 @@ function Home() {
                   <th className='border border-1 border-black bg-teal-600 text-white p-1'>
                     Price
                   </th>
-                  <td>
-                    <p>R$ {e.price}</p>
+                  <td title={e.price}>
+                    <p>R$ {String(e.price).split('').filter((e,j) => j <= 4).join('')}{String(e.price).length >= 5 && '...'}</p>
                   </td>
                 </tbody>
                 <tbody className='border border-1 border-black'>
@@ -213,7 +228,7 @@ function Home() {
                   </th>
                   <td>
                     <p>
-                      {e.paymentType}
+                      {e.paymentType.split(' ')[0]}
                       {e.paymentType == 'pix' && ' ❖'}
                       {e.paymentType.includes('card') && ' 💳'}
                       {e.paymentType == 'money' && ' 💵'}
@@ -231,6 +246,35 @@ function Home() {
               </table>
             </div>
           ))}
+        </div>
+        <div className='mt-28 flex flex-col justify-center items-center'>
+          <p className='mb-10 text-3xl '>Statistics</p>
+          <div>
+            <p className='text-xl'>{`Expenses: ${expenses.length}`}</p>
+            <p className='text-xl'>{`Total: R$ ${statistics.total}`}</p>
+          </div>
+          <div className='h-[450px] lg:w-[45%] md:w-[60%] sm:w-[80%] bg-white border-4 border-teal-600 rounded flex items-end justify-around mt-10 pt-20'>
+            {Object.keys(statistics.types || {}).map((e) => (
+              <p
+                className='bg-teal-600 text-white capitalize w-[15%] text-center p-2 rounded-t-lg'
+                style={{
+                  height:
+                    (((statistics.types[e] / expenses.length) * 100) + 10).toFixed(0) +
+                    '%',
+                }}
+              >
+                {e.split(' ')[0]}
+                {` (${(
+                (statistics.types[e] / expenses.length) *
+                100
+              ).toFixed(0)}%)`}
+                {/* {`${e}: ${statistics.types[e]} - ${(
+                (statistics.types[e] / expenses.length) *
+                100
+              ).toFixed(0)}%`} */}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>
