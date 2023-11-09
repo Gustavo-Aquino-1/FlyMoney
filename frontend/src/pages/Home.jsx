@@ -248,10 +248,10 @@ function Home() {
           ))}
         </div>
         <div className='mt-28 flex flex-col justify-center items-center'>
-          <p className='mb-10 text-3xl '>Statistics</p>
-          <div>
-            <p className='text-xl'>{`Expenses: ${expenses.length}`}</p>
-            <p className='text-xl'>{`Total: R$ ${statistics.total}`}</p>
+          <p className='mb-10 text-3xl rounded'>Statistics</p>
+          <div className='bg-teal-600 text-white p-5 rounded-lg'>
+            <p className='text-2xl'>{`Expenses: ${expenses.length}`}</p>
+            <p className='text-2xl'>{`Total: R$ ${statistics.total}`}</p>
           </div>
           <div className='h-[450px] lg:w-[45%] md:w-[60%] sm:w-[80%] bg-white border-4 border-teal-600 rounded flex items-end justify-around mt-10 pt-20'>
             {Object.keys(statistics.types || {}).map((e) => (
