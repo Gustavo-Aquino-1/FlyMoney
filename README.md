@@ -1,9 +1,11 @@
-
 # FlyMoney 💸
 
 Já pensou em ter o controle de todas suas despesas de uma forma simples e orgazinada?  
 Na FlyMoney você pode!! Além de ter esse controle, você pode ler e salvar artigos criados por especialistas, que te ajudarão a ter um controle melhor do seu dinheiro!!
 
+# Como Funciona
+
+Veja o vídeo de como funciona essa aplicação => [projeto](https://youtu.be/m9SBi-3NVQQ)
 
 # Rodando com Docker 🐳
 
@@ -18,13 +20,10 @@ docker-compose up -d
 - Typescript
 - Express
 - React
-- Sequelize 
+- Sequelize
 - Mysql
 - Docker
-
 
 # Autor 🖌️
 
 - Gustavo Aquino
-
-
