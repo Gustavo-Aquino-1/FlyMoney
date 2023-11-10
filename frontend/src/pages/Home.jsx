@@ -30,6 +30,18 @@ function Home() {
     get()
   }, [])
 
+  useEffect(() => {
+    const sortedExpenses = [...expenses]
+    sortedExpenses.sort(
+      (a, b) =>
+        +b.date.split('T')[0].split('-')[2] -
+        +a.date.split('T')[0].split('-')[2],
+    )
+    if (JSON.stringify(expenses) != JSON.stringify(sortedExpenses)) {
+      setExpenses(sortedExpenses)
+    }
+  }, [expenses])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -43,6 +55,7 @@ function Home() {
       const expenseDate = new Date(data.date)
       if (month == expenseDate.getMonth() + 1) {
         setExpenses([...expenses, data])
+        getStatistics(...expenses)
       }
       setTitle('')
       setPrice('')
@@ -196,6 +209,7 @@ function Home() {
         <div className='grid grid-cols-2 gap-10 max-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center w-[80%] m-auto mt-20 flex justify-center'>
           {expenses.map((e) => (
             <div
+              key={e.id}
               onClick={() => handleExpense(e)}
               className='flex gap-5 flex-col capitalize bg-white text-gray-900 cursor-pointer'
             >
@@ -219,7 +233,14 @@ function Home() {
                     Price
                   </th>
                   <td title={e.price}>
-                    <p>R$ {String(e.price).split('').filter((e,j) => j <= 4).join('')}{String(e.price).length >= 5 && '...'}</p>
+                    <p>
+                      R${' '}
+                      {String(e.price)
+                        .split('')
+                        .filter((e, j) => j <= 4)
+                        .join('')}
+                      {String(e.price).length >= 5 && '...'}
+                    </p>
                   </td>
                 </tbody>
                 <tbody className='border border-1 border-black'>
@@ -256,18 +277,20 @@ function Home() {
           <div className='h-[450px] lg:w-[45%] md:w-[60%] sm:w-[80%] bg-white border-4 border-teal-600 rounded flex items-end justify-around mt-10 pt-20'>
             {Object.keys(statistics.types || {}).map((e) => (
               <p
+                key={e}
                 className='bg-teal-600 text-white capitalize w-[15%] text-center p-2 rounded-t-lg'
                 style={{
                   height:
-                    (((statistics.types[e] / expenses.length) * 100) + 10).toFixed(0) +
-                    '%',
+                    (
+                      (statistics.types[e] / expenses.length) * 100 +
+                      10
+                    ).toFixed(0) + '%',
                 }}
               >
                 {e.split(' ')[0]}
-                {` (${(
-                (statistics.types[e] / expenses.length) *
-                100
-              ).toFixed(0)}%)`}
+                {` (${((statistics.types[e] / expenses.length) * 100).toFixed(
+                  0,
+                )}%)`}
                 {/* {`${e}: ${statistics.types[e]} - ${(
                 (statistics.types[e] / expenses.length) *
                 100
