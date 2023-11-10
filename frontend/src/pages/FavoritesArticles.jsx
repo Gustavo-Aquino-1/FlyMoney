@@ -25,6 +25,7 @@ function FavoritesArticles() {
       <div className='grid grid-cols-4 w-[80%] m-auto mt-20 gap-5'>
         {favorites.map((e) => (
           <div
+            key={e.id}
             onClick={() => push(`/article/${e.id}`)}
             className='p-2 bg-white border border-black min-w-[140px] min-h-[120px] rounded flex flex-col justify-between cursor-pointer'
           >

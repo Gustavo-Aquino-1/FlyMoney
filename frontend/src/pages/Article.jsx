@@ -48,6 +48,7 @@ function Article() {
         <div className='grid grid-cols-4 gap-5 justify-start w-[80%] m-auto'>
           {articles.map((e) => (
             <div
+              key={e.id}
               onClick={() => push(`/article/${e.id}`)}
               className='p-2 bg-white border border-black min-w-[140px] min-h-[120px] rounded flex flex-col justify-between cursor-pointer'
             >

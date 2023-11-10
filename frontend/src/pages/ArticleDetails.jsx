@@ -167,7 +167,7 @@ function ArticleDetails({
           style={{ fontFamily: font, fontSize: size, lineHeight: spacing }}
           className='text-lg first-letter:capitalize text-justify'
         >
-          {article?.context.split('\n').map((e) => <span>{`${e}`}<br/></span>)}
+          {article?.context.split('\n').map((e,i) => <span key={i}>{`${e}`}<br/></span>)}
         </p>
       </div>
     </div>

@@ -131,7 +131,7 @@ function Home() {
             className='border-2 border-teal-700 rounded p-2'
           >
             {['pix', 'debit card', 'credit card', 'money', 'other'].map((e) => (
-              <option value={e}>{e}</option>
+              <option key={e} value={e}>{e}</option>
             ))}
           </select>
 
@@ -169,7 +169,7 @@ function Home() {
               onChange={(e) => setDay(e.target.value)}
             >
               {new Array(31).fill(0).map((e, i) => (
-                <option value={i + 1}>{i + 1}</option>
+                <option key={i} value={i + 1}>{i + 1}</option>
               ))}
             </select>
             <input
@@ -184,7 +184,7 @@ function Home() {
               onChange={(e) => setMonth(e.target.value)}
             >
               {new Array(12).fill(0).map((e, i) => (
-                <option value={i + 1}>{i + 1}</option>
+                <option key={i} value={i + 1}>{i + 1}</option>
               ))}
             </select>
             <p className='text-lg'>Year: </p>
@@ -194,7 +194,7 @@ function Home() {
               onChange={(e) => setYear(e.target.value)}
             >
               {new Array(50).fill(0).map((e, i) => (
-                <option value={2023 - i}>{2023 - i}</option>
+                <option key={i} value={2023 - i}>{2023 - i}</option>
               ))}
             </select>
             <button
